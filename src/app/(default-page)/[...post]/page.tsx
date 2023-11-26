@@ -64,7 +64,7 @@ const PostPage = async ({ params }: { params: { post: string[] } }) => {
 	const { publishedAt, tytul, zawartosc_posta, zdjecie_glowne, galeria } = data.attributes;
 
 	const blurderMainPicutre = await getBase64(zdjecie_glowne.data.attributes.url);
-	// const galleryWithBluredUrl = await getBase64ForAllImg(galeria);
+	const galleryWithBluredUrl = await getBase64ForAllImg(galeria);
 
 	return (
 		<main className='mb-32'>
