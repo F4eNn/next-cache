@@ -5,7 +5,7 @@ import React from 'react';
 import { RootDataType } from '../page';
 import { API_TOKEN, BACKEND_URL_API } from '@/config';
 import { error } from 'console';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import { getBase64, getBase64ForAllImg } from '@/utils/blurdDataUrl';
 
 export interface ImageType {
@@ -47,7 +47,8 @@ const getPost = async (param: string): Promise<any> => {
 			throw new Error('Wykryto nieoczekiwany błąd, spróbuj ponownie lub wróć do strony głównej.');
 		}
 		const { data } = await res.json();
-		return data;
+		const galleryWithBluredUrl = await getBase64ForAllImg(data.attributes.galeria);
+		return {post: data, galleryWithBluredUrl};
 	} catch (err: unknown) {
 		console.error(error);
 	}
@@ -56,16 +57,15 @@ const getPost = async (param: string): Promise<any> => {
 const PostPage = async ({ params }: { params: { post: string[] } }) => {
 	if (params.post[1] === undefined) return null;
 
-	const data = await getPost(params.post[1]);
-
-	if ('errMsg' in data) {
-		throw new Error(data.errMsg);
+	const {post, galleryWithBluredUrl} = await getPost(params.post[1]);
+	console.log(post);
+	if ('errMsg' in post) {
+		throw new Error(post.errMsg);
 	}
-	const { publishedAt, tytul, zawartosc_posta, zdjecie_glowne, galeria } = data.attributes;
+	const { publishedAt, tytul, zawartosc_posta, zdjecie_glowne, galeria } = post.attributes;
 
-	const blurderMainPicutre = await getBase64(zdjecie_glowne.data.attributes.url);
-	// const galleryWithBluredUrl = await getBase64ForAllImg(galeria);
-	// console.log(galleryWithBluredUrl);
+	// const blurderMainPicutre = await getBase64(zdjecie_glowne.data.attributes.url);
+	console.log(galleryWithBluredUrl);
 
 	return (
 		<main className='mb-32'>
