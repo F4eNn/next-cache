@@ -46,7 +46,7 @@ const getPost = async (param: string): Promise<any> => {
 		if (!res.ok) {
 			throw new Error('Wykryto nieoczekiwany błąd, spróbuj ponownie lub wróć do strony głównej.');
 		}
-		const { data }: { data: RootDataType<IPostData> } = await res.json();
+		const { data } = await res.json();
 		return data;
 	} catch (err: unknown) {
 		console.error(error);
@@ -65,6 +65,7 @@ const PostPage = async ({ params }: { params: { post: string[] } }) => {
 
 	const blurderMainPicutre = await getBase64(zdjecie_glowne.data.attributes.url);
 	const galleryWithBluredUrl = await getBase64ForAllImg(galeria);
+	console.log(galleryWithBluredUrl);
 
 	return (
 		<main className='mb-32'>
