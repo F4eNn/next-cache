@@ -8,6 +8,13 @@ import { error } from 'console';
 import Image from 'next/image';
 import { getBase64, getBase64ForAllImg } from '@/utils/blurdDataUrl';
 
+
+
+export const config = {
+	runtime: 'edge',
+ };
+
+ 
 export interface ImageType {
 	url: string;
 	alt: string;
