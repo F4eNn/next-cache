@@ -1,4 +1,11 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+    images: {
+        remotePatterns: [
+           { hostname: 'localhost', port: '1337', pathname: '/uploads/**', protocol: 'http' },
+           { hostname: 'res.cloudinary.com', pathname: `/${process.env.NEXT_CLOUDINARY_NAME}/**`, protocol: 'https' },
+        ],
+     },
+}
 
 module.exports = nextConfig
