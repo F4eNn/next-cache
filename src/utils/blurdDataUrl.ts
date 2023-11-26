@@ -1,8 +1,9 @@
 /** @format */
 
+import { IPostData } from '@/app/[...post]/page';
 import { getPlaiceholder } from 'plaiceholder';
 
-import { IPostData } from '@/app/(default-page)/[...post]/page';
+
 
 export const getBase64 = async (image: string) => {
 	try {
