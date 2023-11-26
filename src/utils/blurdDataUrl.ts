@@ -1,18 +1,16 @@
 /** @format */
 
+
 import { getPlaiceholder } from 'plaiceholder';
 
 import { IPostData } from '@/app/(default-page)/[...post]/page';
 
 export const getBase64 = async (image: string) => {
 	try {
-		const res = await fetch(image);
-		if (!res.ok) {
-			throw new Error(`Failed to fetch image ${res.status} ${res.statusText}`);
-		}
-		const buffer = await res.arrayBuffer();
+		const buffer = await fetch(image).then(async res => Buffer.from(await res.arrayBuffer()));
 
 		const { base64 } = await getPlaiceholder(Buffer.from(buffer));
+		console.log(base64);
 		return base64;
 	} catch (error) {
 		console.error(error);
