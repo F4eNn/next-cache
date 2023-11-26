@@ -19,17 +19,17 @@ export const getBase64 = async (image: string) => {
 	}
 };
 
-export const getBase64ForAllImg = async (images: IPostData['galeria']): Promise<IPostData['galeria']['data'] | undefined> => {
+export const getBase64ForAllImg = async (images: IPostData['galeria']): Promise<any> => {
 	try {
 		const base64Promises = images.data.map(img => getBase64(img.attributes.url));
 
 		const base64Result = await Promise.all(base64Promises);
-
-		const photosWithBlur = images.data.map((img, idx) => {
-			img.attributes.blurDataUrl = base64Result[idx];
-			return img;
-		});
-		return photosWithBlur;
+		if(!base64Result){
+            console.log(base64Result, 'dziwny error');
+            console.log('dziwny error');
+            return 'errorrrrrrrrr'
+        }
+		return base64Result;
 	} catch (error) {
 		console.error(error);
 	}

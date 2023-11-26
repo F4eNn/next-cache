@@ -47,8 +47,7 @@ const getPost = async (param: string): Promise<any> => {
 			throw new Error('Wykryto nieoczekiwany błąd, spróbuj ponownie lub wróć do strony głównej.');
 		}
 		const { data } = await res.json();
-		const galleryWithBluredUrl = await getBase64ForAllImg(data.attributes.galeria);
-		return {post: data, galleryWithBluredUrl};
+		return data;
 	} catch (err: unknown) {
 		console.error(error);
 	}
@@ -57,15 +56,15 @@ const getPost = async (param: string): Promise<any> => {
 const PostPage = async ({ params }: { params: { post: string[] } }) => {
 	if (params.post[1] === undefined) return null;
 
-	const {post, galleryWithBluredUrl} = await getPost(params.post[1]);
-	console.log(post);
-	if ('errMsg' in post) {
-		throw new Error(post.errMsg);
-	}
-	const { publishedAt, tytul, zawartosc_posta, zdjecie_glowne, galeria } = post.attributes;
+	const data = await getPost(params.post[1]);
 
-	// const blurderMainPicutre = await getBase64(zdjecie_glowne.data.attributes.url);
-	console.log(galleryWithBluredUrl);
+	if ('errMsg' in data) {
+		throw new Error(data.errMsg);
+	}
+	const { publishedAt, tytul, zawartosc_posta, zdjecie_glowne, galeria } = data.attributes;
+
+	const blurderMainPicutre = await getBase64(zdjecie_glowne.data.attributes.url);
+	const galleryWithBluredUrl = await getBase64ForAllImg(galeria);
 
 	return (
 		<main className='mb-32'>
