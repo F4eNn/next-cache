@@ -12,4 +12,4 @@ const nextConfig = {
 	},
 };
 
-module.exports = withPlaiceholder(nextConfig);
+export default withPlaiceholder(nextConfig);
