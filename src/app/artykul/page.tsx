@@ -10,9 +10,7 @@ import { getBase64, getBase64ForAllImg } from '@/utils/blurdDataUrl';
 
 
 
-export const config = {
-	runtime: 'edge',
- };
+export const runtime = "edge"
 
  
 export interface ImageType {
