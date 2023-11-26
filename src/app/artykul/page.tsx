@@ -53,10 +53,9 @@ const getPost = async (param: string): Promise<any> => {
 	}
 };
 
-const PostPage = async ({ params }: { params: { post: string[] } }) => {
-	if (params.post[1] === undefined) return null;
+const PostPage = async () => {
 
-	const data = await getPost(params.post[1]);
+	const data = await getPost('czwarty-tytul');
 
 	if ('errMsg' in data) {
 		throw new Error(data.errMsg);

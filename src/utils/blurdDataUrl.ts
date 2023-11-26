@@ -1,9 +1,7 @@
 /** @format */
 
-import { IPostData } from '@/app/[...post]/page';
+import { IPostData } from '@/app/artykul/page';
 import { getPlaiceholder } from 'plaiceholder';
-
-
 
 export const getBase64 = async (image: string) => {
 	try {
@@ -22,16 +20,16 @@ export const getBase64 = async (image: string) => {
 
 export const getBase64ForAllImg = async (images: IPostData['galeria']): Promise<any> => {
 	try {
-        const photosWithBlur = [];
+		const photosWithBlur = [];
 
-        for (const img of images.data) {
-            const res = await getBase64(img.attributes.url);
-            img.attributes.blurDataUrl = res;
-            photosWithBlur.push(img);
-        }
-        console.log(photosWithBlur);
-        return photosWithBlur;
-    } catch (error) {
-        console.error(error);
-    }
+		for (const img of images.data) {
+			const res = await getBase64(img.attributes.url);
+			img.attributes.blurDataUrl = res;
+			photosWithBlur.push(img);
+		}
+		console.log(photosWithBlur);
+		return photosWithBlur;
+	} catch (error) {
+		console.error(error);
+	}
 };
