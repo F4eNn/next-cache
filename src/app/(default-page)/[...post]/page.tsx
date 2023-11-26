@@ -5,7 +5,7 @@ import React from 'react';
 import { RootDataType } from '../page';
 import { API_TOKEN, BACKEND_URL_API } from '@/config';
 import { error } from 'console';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import { getBase64, getBase64ForAllImg } from '@/utils/blurdDataUrl';
 
 export interface ImageType {
