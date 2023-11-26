@@ -21,15 +21,16 @@ export const getBase64 = async (image: string) => {
 
 export const getBase64ForAllImg = async (images: IPostData['galeria']): Promise<any> => {
 	try {
-		const base64Promises = images.data.map(img => getBase64(img.attributes.url));
+		const base64Promises = images.data.map(async img => await getBase64(img.attributes.url));
 
-		const base64Result = await Promise.all(base64Promises);
-		if(!base64Result){
-            console.log(base64Result, 'dziwny error');
-            console.log('dziwny error');
-            return 'errorrrrrrrrr'
-        }
-		return base64Result;
+		// const base64Result = await Promise.all(base64Promises);
+		// if(!base64Result){
+        //     console.log(base64Result, 'dziwny error');
+        //     console.log('dziwny error');
+        //     return 'errorrrrrrrrr'
+        // }
+        
+		return base64Promises;
 	} catch (error) {
 		console.error(error);
 	}
