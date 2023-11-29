@@ -1,6 +1,6 @@
 /** @format */
 
-import { IPostData } from '@/app/artykul/page';
+import { IPostData } from "@/app/(default-page)/[...post]/page";
 import { getPlaiceholder } from 'plaiceholder';
 
 export const getBase64 = async (image: string) => {
@@ -27,7 +27,6 @@ export const getBase64ForAllImg = async (images: IPostData['galeria']): Promise<
 			img.attributes.blurDataUrl = res;
 			photosWithBlur.push(img);
 		}
-		console.log(photosWithBlur);
 		return photosWithBlur;
 	} catch (error) {
 		console.error(error);

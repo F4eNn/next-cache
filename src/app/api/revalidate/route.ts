@@ -17,8 +17,8 @@ export async function POST(request: NextRequest) {
 	}
 
 	const path = request.nextUrl.searchParams.get('path') || '/';
-
-	revalidatePath(path);
+	console.log(path);
+	revalidatePath(path, 'page');
 
 	return NextResponse.json({ revalidated: true });
 }

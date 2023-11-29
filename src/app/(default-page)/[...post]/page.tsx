@@ -2,10 +2,13 @@
 
 import React from 'react';
 
-import { RootDataType } from '../page';
+import { RootDataType } from '../../page';
 import { API_TOKEN, BACKEND_URL_API } from '@/config';
 import Image from 'next/image';
 import { getBase64, getBase64ForAllImg } from '@/utils/blurdDataUrl';
+import Gallery from '@/components/Gallery';
+
+export const revalidate = 86400;
 
 export interface ImageType {
 	url: string;
@@ -30,7 +33,6 @@ export interface IPostData {
 const getPost = async (param: string): Promise<any> => {
 	try {
 		const res = await fetch(`${BACKEND_URL_API}/slugify/slugs/home-post/${param}?populate=*`, {
-			next: { revalidate: 0 },
 			headers: { Authorization: `Bearer ${API_TOKEN}` },
 		});
 		if (res.status === 404) {
@@ -49,61 +51,18 @@ const getPost = async (param: string): Promise<any> => {
 	}
 };
 
-const PostPage = async () => {
-	const data = await getPost('czwarty-tytul');
-
+const PostPage = async ({ params }: { params: any }) => {
+	const data = await getPost(params.post[1]);
+	console.log(params.post[1]);
 	if ('errMsg' in data) {
 		throw new Error(data.errMsg);
 	}
 	const { publishedAt, tytul, zawartosc_posta, zdjecie_glowne, galeria } = data.attributes;
 
-	const blurderMainPicutre = await getBase64(zdjecie_glowne.data.attributes.url);
-	const galleryWithBluredUrl = await getBase64ForAllImg(galeria);
 	return (
 		<main className='mb-32'>
 			{tytul}
-			<Image
-				src={galeria.data[0].attributes.url}
-				width={400}
-				height={500}
-				className='h-56 w-56 object-cover'
-				alt=''
-			/>
-			<Image
-				src={galeria.data[1].attributes.url}
-				width={400}
-				height={500}
-				className='h-56 w-56 object-cover'
-				alt=''
-			/>
-			<Image
-				src={galeria.data[2].attributes.url}
-				width={400}
-				height={500}
-				className='h-56 w-56 object-cover'
-				alt=''
-			/>
-			<Image
-				src={galeria.data[3].attributes.url}
-				width={400}
-				height={500}
-				className='h-56 w-56 object-cover'
-				alt=''
-			/>
-			<Image
-				src={galeria.data[4].attributes.url}
-				width={400}
-				height={500}
-				className='h-56 w-56 object-cover'
-				alt=''
-			/>
-			<Image
-				src={galeria.data[5].attributes.url}
-				width={400}
-				height={500}
-				className='h-56 w-56 object-cover'
-				alt=''
-			/>
+			<Gallery galeria={galeria} />
 		</main>
 	);
 };
